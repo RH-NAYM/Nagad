@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import asyncio
 from typing import List, Union
 import uvicorn
-from Nagad_asynchronous_function import *
+from Nagad_AI import *
 
 
 
@@ -40,6 +40,5 @@ async def create_items(items: Union[Item, List[Item]]):
     return results
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8020)
-
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="127.0.0.1", port=8020)
