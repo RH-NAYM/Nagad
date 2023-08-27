@@ -1,7 +1,7 @@
 import torch
 
 # nModel = torch.hub.load('yolov5', 'custom', path='AI_Models/nagad_normalized_AI_model_version2.pt', source='local')#, device=0)
-nModel = torch.hub.load('yolov5', 'custom', path='AI_Models/old/nagad_normalized_AI_model_version2.pt', source='local')#, device=0)
+nModel = torch.hub.load('yolov5', 'custom', path='AI_Models/nagad_normalized_AI_model_version2.pt', source='local')#, device=0)
 # nModel.conf = 0.4
 # nModel.iou = 0.5
 
