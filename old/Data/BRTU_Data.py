@@ -1,5 +1,5 @@
 import torch
-brtuModel = torch.hub.load('yolov5', 'custom', path='AI_Models/old/BRTU_normalized_AI_model.pt', source='local')#, device=0)
+brtuModel = torch.hub.load('yolov5', 'custom', path='AI_Models/BRTU_normalized_AI_model.pt', source='local')#, device=0)
 # brtuModel.conf = 0.6
 # brtuModel.iou = 0.2
 
