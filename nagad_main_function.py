@@ -4,9 +4,11 @@ import json
 import pandas as pd
 from datetime import datetime
 from Data.NBRTU_Data import nbrtuModel, NBRTU_val, ndel_items, nagad_items, bkash_items, rocket_items, tap_items, upay_items
+import pytz
 
-def time():
-    time_now = datetime.now()
+def get_bd_time():
+    bd_timezone = pytz.timezone("Asia/Dhaka")
+    time_now = datetime.now(bd_timezone)
     current_time = time_now.strftime("%I:%M:%S %p")
     return current_time
 
@@ -55,7 +57,7 @@ async def detect_objects(model, url):
 
 # Multi-Threading detection 
 async def detect_sequence(url):
-    nbrtuModel.conf = 0.4
+    nbrtuModel.conf = 0.5
     # tasks = [detect_objects(nbrtuModel, url)]
     # results = await asyncio.gather(*tasks)
     results = await asyncio.create_task(detect_objects(nbrtuModel,url))
