@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import asyncio
 from typing import List, Union
-import uvicorn
 from nagad_main_function import *
+import uvicorn
 
 app = FastAPI()
 
@@ -13,7 +13,6 @@ class Item(BaseModel):
 async def process_item(item: Item):
     try:
         result = await mainDetect(item.url)
-        # print(item.url)
         result = json.loads(result)
         return result
     finally:
@@ -26,8 +25,6 @@ async def process_items(items: Union[Item, List[Item]]):
         coroutines = [process_item(item) for item in items]
         results = await asyncio.gather(*coroutines)
         print("multi : ",results)
-        # w = len(results)
-        # await asyncio.sleep(w*30)
     else:
         results = await process_item(items)
         print("single : ", results)
@@ -37,21 +34,16 @@ async def process_items(items: Union[Item, List[Item]]):
 
 @app.get("/status")
 async def status():
-    return "Ok"
-
-
-
+    return "AI Server in running"
 
 @app.post("/nagad")
 async def create_items(items: Union[Item, List[Item]]):
     try:
-        # print(type(items))
-        # return
         results = await process_items(items)
         print("Result Sent to User:", results)
         print("###################################################################################################")
         print(items)
-        print("Last Execution Time : ", time())
+        print("Last Execution Time : ", get_bd_time())
         return results
     finally:
         torch.cuda.empty_cache()
