@@ -4,6 +4,17 @@ import asyncio
 from typing import List, Union
 from nagad_main_function import *
 import uvicorn
+import logging
+
+
+logging.basicConfig(filename="NagadLog.log",
+                    filemode='w')
+logger = logging.getLogger("Nagad")
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler("NagadLog.log")
+logger.addHandler(file_handler)
+total_done = 0
+total_error = 0
 
 app = FastAPI()
 
@@ -39,13 +50,25 @@ async def status():
 @app.post("/nagad")
 async def create_items(items: Union[Item, List[Item]]):
     try:
+        # global total_done
+        # total_done +=1
         results = await process_items(items)
         print("Result Sent to User:", results)
         print("###################################################################################################")
         print(items)
         print("Last Execution Time : ", get_bd_time())
+        # logger.info(f"Time:{get_bd_time()}, Execution Done and Total Successfull Execution : {total_done}")
         return results
+    except Exception as e:
+        global total_error
+        total_error += 1
+        logger.info(f"Time:{get_bd_time()}, Execution Failed and Total Failed Execution : {total_error}, Payload:{items}")
+        logger.error(str(e))
+        return {"AI": f"Error: {str(e)}"}
     finally:
+        global total_done
+        total_done +=1
+        logger.info(f"Time:{get_bd_time()}, Execution Done and Total Successfull Execution : {total_done}, Payload:{items}")
         torch.cuda.empty_cache()
         pass
 
